@@ -19,15 +19,15 @@ def generate_user_data():
     private_pem = private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=serialization.NoEncryption()
+        encryption_algorithm=serialization.NoEncryption(),
     )
     public_pem = public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
+        format=serialization.PublicFormat.SubjectPublicKeyInfo,
     )
 
-    encoded_public_key = base64.b64encode(public_pem).decode('utf-8')
-    encoded_private_key = base64.b64encode(private_pem).decode('utf-8')
+    encoded_public_key = base64.b64encode(public_pem).decode("utf-8")
+    encoded_private_key = base64.b64encode(private_pem).decode("utf-8")
     return username, name, encoded_private_key, encoded_public_key
 
 

@@ -1,6 +1,6 @@
+from app.api.api_service import APIService
+from app.services.folder_service import FolderService
 
-from ..api.api_service import APIService
-from ..services.folder_service.folder import FolderService
 
 class FolderController:
     def __init__(self):
