@@ -1,0 +1,6 @@
+cryptography
+SQLAlchemy
+Click
+PyInquirer
+Faker
+python-dotenv

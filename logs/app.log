@@ -1,0 +1,6 @@
+2023-11-10 17:51:48 - app.models.database - INFO - database tables created
+2023-11-10 17:53:47 - app.models.database - INFO - database tables created
+2023-11-10 20:04:05 - app.models.database - INFO - database tables created
+2023-11-10 20:05:31 - app.models.database - INFO - database tables created
+2023-11-10 20:24:23 - app.models.database - INFO - database tables created
+2023-11-10 20:24:24 - app.services.db_service - INFO - User iweaver with ID a062d022-f877-42db-97c0-1ce129c5bb6e has been created successfully.
