@@ -1,29 +1,21 @@
-import click
-from app.services.data_generation import generate_user_data
-from app.services.api_service import create_user_api
-from app.services.db_service import write_to_db
-from app.models import init_db, User
-from dotenv import load_dotenv
-from app.logger_config import setup_logging
-
-setup_logging()
-load_dotenv()
+from controllers.user_controller import UserController
+from controllers.folder_controller import FolderController
 
 
-@click.command()
-def create_user():
-    """Create a user and send data to the local server."""
-    username, name, private_key, public_key = generate_user_data()
-    response_data = create_user_api(username, name, public_key)
+def main():
+    user_controller = UserController()
+    folder_controller = FolderController()
 
-    if response_data.get('success'):
-        user_id = response_data.get('data')
-        write_to_db(user_id, username, private_key, public_key)
-        print(f"User {username} created with ID {user_id}")
-    else:
-        print("Failed to create user")
+    # Creating a fake user
+    fake_user_response = user_controller.create_fake_user()
+    print("Fake User Created:", fake_user_response)
+
+    # Creating a fake folder
+    fake_folder_response = folder_controller.create_fake_folder()
+    print("Fake Folder Created:", fake_folder_response)
+
+    # Additional application logic can be added here
 
 
-if __name__ == "__main__":
-    init_db()
-    create_user()
+if __name__ == "__main__": 
+    main()
