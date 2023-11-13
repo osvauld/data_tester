@@ -21,7 +21,6 @@ def main():
     #folders = folder_controller.fetch_all_folders()
     #print(folders)
     users = user_controller.fetch_all_users()
-    print(users)
     # Additional application logic can be added here
 
 
