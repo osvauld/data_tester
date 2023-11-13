@@ -1,4 +1,3 @@
-
 import logging
 from app.models import User, Session
 
@@ -11,7 +10,12 @@ def write_to_db(user_id, username, private_key, public_key):
     """Write user data to the database."""
     session = Session()
     try:
-        user = User(userId=user_id, username=username, privateKey=private_key, publicKey=public_key)
+        user = User(
+            userId=user_id,
+            username=username,
+            privateKey=private_key,
+            publicKey=public_key,
+        )
         session.add(user)
         session.commit()
         logger.info(f"User {username} with ID {user_id} has been created successfully.")

@@ -4,3 +4,5 @@ Click
 PyInquirer
 Faker
 python-dotenv
+Flask-SQLAlchemy
+requests

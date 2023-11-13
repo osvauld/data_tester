@@ -1,5 +1,6 @@
-from ..api.api_service import APIService
-from ..services.user_service.user import UserService
+from app.api.api_service import APIService
+from app.services.user_service import UserService
+
 
 class UserController:
     def __init__(self):

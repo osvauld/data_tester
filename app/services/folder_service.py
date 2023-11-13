@@ -7,6 +7,10 @@ class FolderService:
 
     def generate_folder_data(self):
         """Generate fake folder data."""
-        folder_name = self.fake.word(ext_word_list=None) + " " + self.fake.word(ext_word_list=None)
+        folder_name = (
+            self.fake.word(ext_word_list=None)
+            + " "
+            + self.fake.word(ext_word_list=None)
+        )
         description = self.fake.sentence(nb_words=6)
         return folder_name, description

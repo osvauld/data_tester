@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Database setup
-engine = create_engine('sqlite:///users.db')
+engine = create_engine("sqlite:///users.db")
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
@@ -17,5 +17,5 @@ def init_db():
 
         Base.metadata.create_all(engine)
         logger.info("database tables created")
-    except Exeception as e:
+    except Exception as e:
         logger.error("Error initing db %s", e)

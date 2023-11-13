@@ -1,5 +1,5 @@
-from controllers.user_controller import UserController
-from controllers.folder_controller import FolderController
+from app.controllers.user_controller import UserController
+from app.controllers.folder_controller import FolderController
 
 
 def main():
@@ -17,5 +17,5 @@ def main():
     # Additional application logic can be added here
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()
