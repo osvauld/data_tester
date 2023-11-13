@@ -1,4 +1,4 @@
-from app.api.api_service import APIService
+from app.services.api_service import APIService
 from app.services.user_service import UserService
 
 
