@@ -55,7 +55,7 @@ class APIService:
             url = f"{self.base_url}/users"
             self.logger.info("Fetching all users")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched all users: {respdata_tester}")
+            self.logger.info(f"Fetched all users: {response.json()}")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
