@@ -18,7 +18,8 @@ class APIService:
         url = f"{self.base_url}/user/"
         data = {"username": username, "name": name, "publicKey": public_key}
         print(data)
-        response = requests.post(url, headers=self.headers, data=json.dumps(data))
+        response = requests.post(url, headers=self.headers,
+                data=json.dumps(data))
 
         return response.json()
     # add try catch here
@@ -39,6 +40,15 @@ class APIService:
     def fetch_all_folders_api(self):
         try:
             url = f"{self.base_url}/folders"
+            response = requests.get(url, headers=self.headers)
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+            return None
+
+    def fetch_all_users_api(self):
+        try:
+            url = f"{self.base_url}/users"
             response = requests.get(url, headers=self.headers)
             return response.json()
         except requests.exceptions.RequestException as e:
