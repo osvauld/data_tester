@@ -44,7 +44,7 @@ class APIService:
             url = f"{self.base_url}/folders"
             self.logger.info(f"Fetching all folders")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched all folders: {response.json()}")
+            self.logger.info("Fetched all folders:")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
@@ -55,7 +55,7 @@ class APIService:
             url = f"{self.base_url}/users"
             self.logger.info("Fetching all users")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched all users: {response.json()}")
+            self.logger.info("Fetched all users: ")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
@@ -117,3 +117,15 @@ class APIService:
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
             return None
+
+    def share_folder(self, payload):
+        url = f"{self.base_url}/folder"
+        response = requests.put(url, headers=self.headers, data=json.dumps(payload))
+        self.logger.info(f"Shared folder: {response.json()}")
+        return response.json()
+
+    def fetch_shared_users(self, folder_id):
+        url = f"{self.base_url}/folder/{folder_id}/users"
+        response = requests.get(url, headers=self.headers)
+        self.logger.info(f"Fetched shared users: {response.json()}")
+        return response.json()
