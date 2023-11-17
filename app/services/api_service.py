@@ -72,7 +72,7 @@ class APIService:
             self.logger.error(f"An error occurred: {e}")
             return None
 
-    def share_secret(self, data):
+    def share_credential(self, data):
         try:
             url = f"{self.base_url}/secrets"
             headers = {**self.headers, 'Content-Type': 'application/json'}
@@ -84,7 +84,7 @@ class APIService:
             self.logger.error(f"An error occurred: {e}")
             return None
 
-    def create_secret(self, data):
+    def create_credential(self, data):
         try:
             url = f"{self.base_url}/credential/"
             headers = {**self.headers, 'Content-Type': 'application/json'}
@@ -96,7 +96,7 @@ class APIService:
             self.logger.error(f"An error occurred: {e}")
             return None
 
-    def get_secrets(self, folder_id):
+    def get_credentails_by_folder(self, folder_id):
         try:
             url = f"{self.base_url}/secrets?folderId={folder_id}"
             self.logger.info(f"Fetching secrets for folder: {folder_id}")
@@ -127,5 +127,5 @@ class APIService:
     def fetch_shared_users(self, folder_id):
         url = f"{self.base_url}/folder/{folder_id}/users"
         response = requests.get(url, headers=self.headers)
-        self.logger.info(f"Fetched shared users: {response.json()}")
+        self.logger.info("Fetched shared users: ")
         return response.json()
