@@ -36,11 +36,13 @@ class FolderService:
     
     def share_folder(self, folders, users):
         try:
+            print(folders)
             folder = random.choice(folders)
             shared_users = self.fetch_shared_users(folder['id'])
             shared_user_ids = [user['id'] for user in shared_users]
+            print(shared_user_ids)
             users = [user for user in users if user['id'] not in shared_user_ids]
-            selected_users = random.sample(users, random.randint(5, 20))
+            selected_users = random.sample(users, random.randint(0, 1))
             access_types = ['owner', 'readonly', 'manage']
             users_payload = [{"userId": user['id'], "accessType": random.choice(access_types)} for user in selected_users]
             payload = {"folderId": folder['id'], "users": users_payload}

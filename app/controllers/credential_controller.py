@@ -34,6 +34,7 @@ class CredentialController:
                 for field in payload['encryptedFields']:
                     temp_field = field.copy()
                     temp_field['fieldValue'] = self.credential_service.encrypt_with_public_key(temp_field['fieldValue'], public_key)
+                    print(temp_field, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
                     new_field['fields'].append(temp_field)
                 new_encrypted_fields.append(new_field)
             payload['encryptedFields'] = new_encrypted_fields

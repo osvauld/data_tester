@@ -25,3 +25,20 @@ def write_to_db(user_id, username, private_key, public_key):
         logger.error(f"Error occurred when writing to the database: {e}", exc_info=True)
     finally:
         session.close()
+
+        
+def fetch_private_key(username):
+    """Fetch the private key of a user from the database."""
+    session = Session()
+    try:
+        user = session.query(User).filter_by(username=username).first()
+        if user:
+            return user.privateKey
+        else:
+            logger.error(f"No user found with username {username}")
+            return None
+    except Exception as e:
+        logger.error(f"Error occurred when fetching from the database: {e}", exc_info=True)
+        return None
+    finally:
+        session.close()

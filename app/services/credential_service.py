@@ -9,6 +9,8 @@ import logging
 from app.services.folder_service import FolderService
 from app.services.user_service import UserService
 from app.services.api_service import APIService
+from app.services.db_service import fetch_private_key
+
 fake = Faker()
 
 
@@ -33,6 +35,8 @@ class CredentialService:
                 "encryptedFields": encrypted_fields}
 
     def encrypt_with_public_key(self, message, public_key):
+        print('message', message)
+
         try:
             public_key = base64.b64decode(public_key)
             public_key = serialization.load_pem_public_key(
@@ -47,7 +51,8 @@ class CredentialService:
                     label=None
                 )
             )
-            return base64.b64encode(encrypted).decode()
+            encrypted_base64 = base64.b64encode(encrypted).decode()
+            return encrypted_base64 
         except Exception as e:
             self.logger.error(f"Error encrypting message: {e}")
             return None
@@ -72,21 +77,50 @@ class CredentialService:
         try:
             folders = self.folder_service.fetch_all_folders()
             users = self.user_service.fetch_all_users()
+            user_private_key = fetch_private_key('josephsmith')
             folder = random.choice(folders)
             credentials = self.get_credentails_by_folder(folder['id'])
             credential = random.choice(credentials)
             credential_data = self.fetch_credential_by_id(credential['id'])
+            credential_data['encryptedData'] = self.decrypt_fields(credential_data['encryptedData'], user_private_key)
+            print(credential_data['encryptedData'], "#$$$$$$$$$$$$$")
             shared_user_ids = [user['id'] for user in credential_data['users']]
             users = [user for user in users if user['id'] not in shared_user_ids]
-            selected_users = random.sample(users, random.randint(1, 3))
+            selected_users = random.sample(users, random.randint(1, 1))
             users_payload = []
             for user in selected_users:
                 fields = [{"fieldName": field['fieldName'], "fieldValue": self.encrypt_with_public_key(field['fieldValue'], user['publicKey'])} for field in credential_data['encryptedData']]
-                users_payload.append({"userId": user['id'], "fields": fields})
+                users_payload.append({"userId": user['id'], "fields": fields, "accessType": "read"})
             payload = {"credentialId": credential['id'], "users": users_payload}
             print(payload)
             self.logger.info(f"Sharing credential {credential['id']} with users {', '.join([user['id'] for user in selected_users])}")
-            # share_response = self.api_service.share_credential(payload)
-            # self.logger.info(f"Shared credential: {share_response}")
+            share_response = self.api_service.share_credential({"credentialList":[payload]})
+            self.logger.info(f"Shared credential: {share_response}")
         except Exception as e:
             self.logger.error(f"Error sharing credential: {e}")
+
+    def decrypt_fields(self, encrypted_data, private_key):
+        private_key = base64.b64decode(private_key)
+        private_key = serialization.load_pem_private_key(
+            private_key,
+            password=None,
+            backend=default_backend()
+        )
+        for field in encrypted_data:
+            try:
+
+                print(field['fieldValue'], 'valueee')
+                encrypted_value = base64.b64decode(field['fieldValue'])
+                decrypted_value = private_key.decrypt(
+                    encrypted_value,
+                    padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None
+                    )
+                )
+                field['fieldValue'] = decrypted_value.decode()
+            except Exception as e:
+                self.logger.error(f"Error decrypting field {field['fieldName']}: {e}")
+                field['fieldValue'] = None
+        return encrypted_data

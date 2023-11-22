@@ -101,7 +101,7 @@ class APIService:
             url = f"{self.base_url}/secrets?folderId={folder_id}"
             self.logger.info(f"Fetching secrets for folder: {folder_id}")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched secrets: {response.json()}")
+            self.logger.info("Fetched secrets: ")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
@@ -112,7 +112,7 @@ class APIService:
             url = f"{self.base_url}/credential/{credential_id}"
             self.logger.info(f"Fetching credential by id: {credential_id}")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched credential: {response.json()}")
+            self.logger.info("Fetched credential ")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
