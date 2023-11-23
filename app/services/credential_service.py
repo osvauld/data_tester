@@ -83,10 +83,9 @@ class CredentialService:
             credential = random.choice(credentials)
             credential_data = self.fetch_credential_by_id(credential['id'])
             credential_data['encryptedData'] = self.decrypt_fields(credential_data['encryptedData'], user_private_key)
-            print(credential_data['encryptedData'], "#$$$$$$$$$$$$$")
             shared_user_ids = [user['id'] for user in credential_data['users']]
             users = [user for user in users if user['id'] not in shared_user_ids]
-            selected_users = random.sample(users, random.randint(1, 1))
+            selected_users = random.sample(users, random.randint(1, 10))
             users_payload = []
             for user in selected_users:
                 fields = [{"fieldName": field['fieldName'], "fieldValue": self.encrypt_with_public_key(field['fieldValue'], user['publicKey'])} for field in credential_data['encryptedData']]

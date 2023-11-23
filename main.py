@@ -17,16 +17,16 @@ def main():
     folder_controller = FolderController()
 
     # Creating a fake user
-    #fake_user_response = user_controller.create_fake_user(2)
+    fake_user_response = user_controller.create_fake_user(200)
 
     # Creating a fake folder
-    #fake_folder_response = folder_controller.create_fake_folder(1)
+    fake_folder_response = folder_controller.create_fake_folder(500)
     #folders = folder_controller.fetch_all_folders()
     #users = user_controller.fetch_all_users()
     # Additional application logic can be added here
-    #folder_controller.share_folder_with_random_user(3)
-    #credentail_controller.create_credential(1)
-    credentail_controller.share_credential(1)
+    folder_controller.share_folder_with_random_user(150)
+    credentail_controller.create_credential(1000)
+    credentail_controller.share_credential(450)
 
 if __name__ == "__main__":
     main()
