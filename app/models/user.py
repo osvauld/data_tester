@@ -9,3 +9,10 @@ class User(Base):
     username = Column(String)
     privateKey = Column(String)
     publicKey = Column(String)
+    
+    def to_dict(self):
+        return {
+            'id': self.userId,
+            'username': self.username,
+            'privateKey': self.privateKey
+        }

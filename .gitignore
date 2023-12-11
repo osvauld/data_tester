@@ -4,3 +4,5 @@ __pycache__/*
 *.pyc
 users.db
 venv/
+logs/
+temp

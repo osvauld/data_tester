@@ -42,3 +42,16 @@ def fetch_private_key(username):
         return None
     finally:
         session.close()
+    
+
+def fetch_all_users():
+    """Fetch all users from the database."""
+    session = Session()
+    try:
+        users = session.query(User).all()
+        return [user.to_dict() for user in users]
+    except Exception as e:
+        logger.error(f"Error occurred when fetching from the database: {e}", exc_info=True)
+        return None
+    finally:
+        session.close()

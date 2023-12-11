@@ -77,7 +77,7 @@ class CredentialService:
         try:
             folders = self.folder_service.fetch_all_folders()
             users = self.user_service.fetch_all_users()
-            user_private_key = fetch_private_key('josephsmith')
+            user_private_key = fetch_private_key('howarddavid')
             folder = random.choice(folders)
             credentials = self.get_credentails_by_folder(folder['id'])
             credential = random.choice(credentials)

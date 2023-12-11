@@ -66,7 +66,7 @@ class APIService:
             url = f"{self.base_url}/folder/{folder_id}"
             self.logger.info(f"Fetching users for folder: {folder_id}")
             response = requests.get(url, headers=self.headers)
-            self.logger.info(f"Fetched users: {response.json()}")
+            self.logger.info(f"Fetched users: ")
             return response.json()
         except requests.exceptions.RequestException as e:
             self.logger.error(f"An error occurred: {e}")
@@ -98,7 +98,7 @@ class APIService:
 
     def get_credentails_by_folder(self, folder_id):
         try:
-            url = f"{self.base_url}/secrets?folderId={folder_id}"
+            url = f"{self.base_url}/folder/{folder_id}/credential"
             self.logger.info(f"Fetching secrets for folder: {folder_id}")
             response = requests.get(url, headers=self.headers)
             self.logger.info("Fetched secrets: ")
@@ -128,4 +128,35 @@ class APIService:
         url = f"{self.base_url}/folder/{folder_id}/users"
         response = requests.get(url, headers=self.headers)
         self.logger.info("Fetched shared users: ")
+        return response.json()
+
+    def create_group(self, name):
+        url = f"{self.base_url}/group"
+        payload = {
+            'name': name
+        }
+        response = requests.post(url, headers=self.headers, data=json.dumps(payload))
+        self.logger.info(f"Created group: {response.json()}")
+        return response.json()
+    
+    def add_members_to_group(self, group_id, members):
+        url = f"{self.base_url}/group/members"
+        payload = {
+            'groupId': group_id,
+            'members': members
+        }
+        response = requests.post(url, headers=self.headers, data=json.dumps(payload))
+        self.logger.info(f"Added members to group: {response.json()}")
+        return response.json()
+
+    def fetch_all_groups(self):
+        url = f"{self.base_url}/groups"
+        response = requests.get(url, headers=self.headers)
+        self.logger.info(f"Fetched all groups: {response.json()}")
+        return response.json()
+    
+    def fetch_group_users(self, group_id):
+        url = f"{self.base_url}/group/{group_id}"
+        response = requests.get(url, headers=self.headers)
+        self.logger.info(f"Fetched group: ")
         return response.json()
