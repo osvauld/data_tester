@@ -74,7 +74,7 @@ class APIService:
 
     def share_credential(self, data):
         try:
-            url = f"{self.base_url}/secrets"
+            url = f"{self.base_url}/credentials"
             headers = {**self.headers, 'Content-Type': 'application/json'}
             self.logger.info(f"Sharing secret with data: {data}")
             response = requests.put(url, headers=headers, data=json.dumps(data))

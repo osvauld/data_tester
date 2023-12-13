@@ -25,7 +25,7 @@ class CredentialService:
     def generate_credential_payload(self):
 
         name = fake.word(ext_word_list=None)
-        description = fake.sentence(nb_words=6)
+        description = fake.sentence(nb_words=15)
         unencrypted_fields = [{"fieldName": fake.word(), "fieldValue": fake.word()}
                               for _ in range(random.randint(1, 5))]
         encrypted_fields = [{"fieldName": fake.word(), "fieldValue": fake.word()}
