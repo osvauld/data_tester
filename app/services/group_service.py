@@ -31,7 +31,7 @@ class GroupService:
         """Add user to group"""
         all_users = self.user_service.fetch_all_users()
         groups = self.fetch_all_groups()
-        group_id = random.choice(groups)['id']
+        group_id = random.choice(groups)['groupId']
         group_users = self.fetch_group_users(group_id)
         # Fetch random number of user ids
         group_user_ids = [user['id'] for user in group_users]
@@ -44,6 +44,6 @@ class GroupService:
 
         # Get random sample of user IDs
         sample_user_ids = random.sample(user_ids, num_users)
-        
-        self.api_service.add_members_to_group(group_id, sample_user_ids)
+        for user_id in sample_user_ids:
+            self.api_service.add_members_to_group(group_id, user_id)
         

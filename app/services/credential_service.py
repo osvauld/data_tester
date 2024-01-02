@@ -7,6 +7,7 @@ import base64
 import random
 import logging
 from app.services.folder_service import FolderService
+from app.services.group_service import GroupService
 from app.services.user_service import UserService
 from app.services.api_service import APIService
 from app.services.db_service import fetch_private_key
@@ -21,6 +22,7 @@ class CredentialService:
         self.folder_service = FolderService()
         self.user_service = UserService()
         self.api_service = APIService()
+        self.group_service = GroupService()
 
     def generate_credential_payload(self):
 
@@ -32,7 +34,7 @@ class CredentialService:
                             for _ in range(random.randint(1, 3))]
         return {"name": name, "description": description,
                 "unencryptedFields": unencrypted_fields,
-                "encryptedFields": encrypted_fields}
+                "userAccessDetails": encrypted_fields}
 
     def encrypt_with_public_key(self, message, public_key):
         print('message', message)
@@ -77,7 +79,7 @@ class CredentialService:
         try:
             folders = self.folder_service.fetch_all_folders()
             users = self.user_service.fetch_all_users()
-            user_private_key = fetch_private_key('howarddavid')
+            user_private_key = fetch_private_key('selena44')
             folder = random.choice(folders)
             credentials = self.get_credentails_by_folder(folder['id'])
             credential = random.choice(credentials)
@@ -91,7 +93,6 @@ class CredentialService:
                 fields = [{"fieldName": field['fieldName'], "fieldValue": self.encrypt_with_public_key(field['fieldValue'], user['publicKey'])} for field in credential_data['encryptedData']]
                 users_payload.append({"userId": user['id'], "fields": fields, "accessType": "read"})
             payload = {"credentialId": credential['id'], "users": users_payload}
-            print(payload)
             self.logger.info(f"Sharing credential {credential['id']} with users {', '.join([user['id'] for user in selected_users])}")
             share_response = self.api_service.share_credential({"credentialList":[payload]})
             self.logger.info(f"Shared credential: {share_response}")
@@ -123,3 +124,28 @@ class CredentialService:
                 self.logger.error(f"Error decrypting field {field['fieldName']}: {e}")
                 field['fieldValue'] = None
         return encrypted_data
+    
+    def share_credential_with_group(self):
+        try:
+            folders = self.folder_service.fetch_all_folders()
+            groups = self.group_service.fetch_all_groups()
+            # print(groups)
+            # user_private_key = fetch_private_key('selena44')
+            # folder = random.choice(folders)
+            # credentials = self.get_credentails_by_folder(folder['id'])
+            # credential = random.choice(credentials)
+            # credential_data = self.fetch_credential_by_id(credential['id'])
+            # credential_data['encryptedData'] = self.decrypt_fields(credential_data['encryptedFields'], user_private_key)
+            # shared_user_ids = [user['id'] for user in credential_data['users']]
+            # users = [user for user in users if user['id'] not in shared_user_ids]
+            # selected_users = random.sample(users, random.randint(1, 10))
+            # users_payload = []
+            # for user in selected_users:
+            #     fields = [{"fieldName": field['fieldName'], "fieldValue": self.encrypt_with_public_key(field['fieldValue'], user['publicKey'])} for field in credential_data['encryptedData']]
+            #     users_payload.append({"userId": user['id'], "fields": fields, "accessType": "read"})
+            # payload = {"credentialId": credential['id'], "users": users_payload}
+            # self.logger.info(f"Sharing credential {credential['id']} with users {', '.join([user['id'] for user in selected_users])}")
+            # share_response = self.api_service.share_credential({"credentialList":[payload]})
+            # self.logger.info(f"Shared credential: {share_response}")
+        except Exception as e:
+            self.logger.error(f"Error sharing credential: {e}")

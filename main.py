@@ -15,19 +15,20 @@ def main():
     setup_logging()
     init_db()
     user_controller = UserController()
-    credentail_controller = CredentialController()
+    credential_controller = CredentialController()
     folder_controller = FolderController()
     group_controller = GroupController()
 
     # Creating a fake user
-    #fake_user_response = user_controller.create_fake_user(1000)
+    # user_controller.create_fake_user(10)
     # Creating a fake folder
-    #fake_folder_response = folder_controller.create_fake_folder(50)
-    folder_controller.share_folder_with_random_user(150)
-    credentail_controller.create_credential(1000)
-    credentail_controller.share_credential(450)
-    group_controller.create_fake_group(50)
-    group_controller.add_user_to_group(200)
+    # folder_controller.create_fake_folder(20)
+    # folder_controller.share_folder_with_random_user(5)
+    # credential_controller.create_credential(1)
+    credential_controller.share_credential_with_group(1)
+    # credential_controller.share_credential(1)
+    # group_controller.create_fake_group(10)
+    # group_controller.add_user_to_group(10)
 
 if __name__ == "__main__":
     main()

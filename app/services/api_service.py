@@ -139,11 +139,13 @@ class APIService:
         self.logger.info(f"Created group: {response.json()}")
         return response.json()
     
-    def add_members_to_group(self, group_id, members):
+    def add_members_to_group(self, group_id, user_id):
         url = f"{self.base_url}/group/members"
         payload = {
             'groupId': group_id,
-            'members': members
+            'memberId': user_id,
+            'memberRole': 'member',
+            'encryptedData': []
         }
         response = requests.post(url, headers=self.headers, data=json.dumps(payload))
         self.logger.info(f"Added members to group: {response.json()}")
@@ -152,7 +154,7 @@ class APIService:
     def fetch_all_groups(self):
         url = f"{self.base_url}/groups"
         response = requests.get(url, headers=self.headers)
-        self.logger.info(f"Fetched all groups: {response.json()}")
+        self.logger.info(f"Fetched all gsoups: ")
         return response.json()
     
     def fetch_group_users(self, group_id):
